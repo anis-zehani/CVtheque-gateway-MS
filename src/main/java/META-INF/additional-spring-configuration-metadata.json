@@ -1,0 +1,57 @@
+{"properties": [
+  {
+    "name": "jwt.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'jwt.secret'"
+  },
+  {
+    "name": "linkedin.consumerKey",
+    "type": "java.lang.String",
+    "description": "A description for 'linkedin.consumerKey'"
+  },
+  {
+    "name": "linkedin.consumerSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'linkedin.consumerSecret'"
+  },
+  {
+    "name": "linkedin.redirectUri",
+    "type": "java.lang.String",
+    "description": "A description for 'linkedin.redirectUri'"
+  },
+  {
+    "name": "linkedin.scope",
+    "type": "java.lang.String",
+    "description": "A description for 'linkedin.scope'"
+  },
+  {
+    "name": "linkedin.urlEmailaddress",
+    "type": "java.lang.String",
+    "description": "A description for 'linkedin.urlEmailaddress'"
+  },
+  {
+    "name": "linkedin.urlLiteProfile",
+    "type": "java.lang.String",
+    "description": "A description for 'linkedin.urlLiteProfile'"
+  },
+  {
+    "name": "linkedin.urlProfilePicture",
+    "type": "java.lang.String",
+    "description": "A description for 'linkedin.urlProfilePicture'"
+  },
+  {
+    "name": "linkedin.state",
+    "type": "java.lang.String",
+    "description": "A description for 'linkedin.state'"
+  },
+  {
+    "name": "linkedin.consumerSecret",
+    "type": "java.lang.String",
+    "description": "A description for 'linkedin.consumerSecret'"
+  },
+  {
+    "name": "linkedin.redirectUri",
+    "type": "java.lang.String",
+    "description": "A description for 'linkedin.redirectUri'"
+  }
+]}
