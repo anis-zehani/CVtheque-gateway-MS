@@ -14,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
-import javax.persistence.Version;
 
 import lombok.Data;
 
@@ -36,9 +35,6 @@ public class Utilisateur implements Serializable {
 	@GeneratedValue
 	@Column(name = "id", updatable = false, nullable = false, unique=true)
 	private UUID id;
-
-	@Version
-	private int version;
 	
 	@Column(unique = true)
 	private String identite;
@@ -78,16 +74,8 @@ public class Utilisateur implements Serializable {
 		return id;
 	}
 
-	public int getVersion() {
-		return version;
-	}
-
 	public void setId(UUID id) {
 		this.id = id;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
 	}
 
 	public String getIdentite() {

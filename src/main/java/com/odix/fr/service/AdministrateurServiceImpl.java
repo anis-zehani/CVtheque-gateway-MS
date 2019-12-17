@@ -1,24 +1,27 @@
 package com.odix.fr.service;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.odix.fr.messaging.KafkaProducer;
+import com.odix.fr.messaging.AdministrateurProducers;
 import com.odix.fr.model.Administrateur;
 import com.odix.fr.repository.AdministrateurRepository;
 
 @Service
 public class AdministrateurServiceImpl implements AdministrateurService{
+
 	
 	public final AdministrateurRepository administrateurRepository;
 	
 	@Autowired
-    public final KafkaProducer kafkaProducer;
+    public final AdministrateurProducers administrateurProducers;
 	
-	public AdministrateurServiceImpl(AdministrateurRepository administrateurRepository, KafkaProducer kafkaProducer) {
+	public AdministrateurServiceImpl(AdministrateurRepository administrateurRepository, AdministrateurProducers administrateurProducers) {
 		super();
 		this.administrateurRepository = administrateurRepository;
-		this.kafkaProducer = kafkaProducer;
+		this.administrateurProducers = administrateurProducers;
 	}
 
 	/*
@@ -26,6 +29,7 @@ public class AdministrateurServiceImpl implements AdministrateurService{
 	 * Si y a pas : on ajout un Super Admin avec un mot de passe dèja Bcrypte que seul Anis Zaheni connait
 	 * 
 	 */
+	@Transactional
 	public void verifyOrAddAdmin(){
 		
 		Administrateur admin =  administrateurRepository.verifyAdmin("ROLE_ADMINISTRATEUR");
@@ -41,14 +45,7 @@ public class AdministrateurServiceImpl implements AdministrateurService{
 			administrateurRepository.save(superAdmin);
 			
 			/*Envoyer un MESSAGE au TOPIC KAFKA pour ajouter cet utilisateur*/
-			this.kafkaProducer.produceAdministrateurAdded(
-					"ROLE_ADMINISTRATEUR"
-					+'#'+superAdmin.getId()
-					+'#'+superAdmin.getEmail()
-					+'#'+superAdmin.getIdentite()
-					+'#'+superAdmin.getUrlPhoto()
-					);
-			
+			this.administrateurProducers.addAdministrateurProducer(superAdmin);
 
 		}
 		
