@@ -87,7 +87,7 @@ public class PartenaireServiceImpl implements PartenaireService{
 			}	
 			Partenaire toAddPartenaire =  partenaireRepository.save(partenaire);
 			
-			/*Envoyer un MESSAGE au TOPIC KAFKA pour ajouter ce partenaire*/
+			//Consistency avec les autres MS
 			this.partenaireProducers.addPartenaireProducer(toAddPartenaire);
 			
 			return toAddPartenaire;
@@ -118,6 +118,7 @@ public class PartenaireServiceImpl implements PartenaireService{
 	}
 
 	//Modifier un partenaire
+	@Transactional
 	public Partenaire editPartenaire(Partenaire partenaire) {
 		
 		//L'Update url photo se fait en haut dans la fonction addPhotoToPartenaire
@@ -162,6 +163,9 @@ public class PartenaireServiceImpl implements PartenaireService{
 			{
 				partenaireToUpdate.setEtatPartenaire(Etat.True);
 			}
+			
+			//Consistency avec les autres MS
+			this.partenaireProducers.editPartenaireProducer(partenaireToUpdate);
 			
 			return partenaireRepository.save(partenaireToUpdate);
 		}
@@ -225,6 +229,7 @@ public class PartenaireServiceImpl implements PartenaireService{
 	}
 	
 	//Supprimer un partenaire
+	@Transactional
 	public Boolean deletePartenaire(UUID id) {
 		
 		if(partenaireRepository.existsById(id))
@@ -240,6 +245,10 @@ public class PartenaireServiceImpl implements PartenaireService{
 					//On supprime la ligne de la base
 				}
 				partenaireRepository.deleteById(id);
+				
+				//Consistency avec les autres MS
+				this.partenaireProducers.deletePartenaireProducer(id);
+				
 				return true;
 			}
 			catch(Exception e) 

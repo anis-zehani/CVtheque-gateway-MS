@@ -44,7 +44,7 @@ public class AdministrateurServiceImpl implements AdministrateurService{
 			superAdmin.setUrlPhoto("https://media.licdn.com/dms/image/C4D03AQGvl_z8bsx2Ew/profile-displayphoto-shrink_200_200/0?e=1577318400&v=beta&t=Fx9LN6el85eyVDPHiDIBUwPDbDiDa1zVO3bRc0obNt8");
 			administrateurRepository.save(superAdmin);
 			
-			/*Envoyer un MESSAGE au TOPIC KAFKA pour ajouter cet utilisateur*/
+			//Consistency avec les autres MS
 			this.administrateurProducers.addAdministrateurProducer(superAdmin);
 
 		}
