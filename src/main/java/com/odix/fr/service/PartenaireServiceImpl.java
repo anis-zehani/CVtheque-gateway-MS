@@ -4,10 +4,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.odix.fr.messaging.PartenaireProducers;
 import com.odix.fr.model.Entreprise;
 import com.odix.fr.model.Etat;
 import com.odix.fr.model.Partenaire;
@@ -23,6 +26,9 @@ public class PartenaireServiceImpl implements PartenaireService{
 	
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
+	
+	@Autowired
+	PartenaireProducers partenaireProducers;
 
 	PartenaireServiceImpl(PartenaireRepository partenaireRepository, LocalStorageService storageService) {
 		super();
@@ -56,6 +62,7 @@ public class PartenaireServiceImpl implements PartenaireService{
 	}
 
 	//Ajouter un partenaire
+	@Transactional
 	public Partenaire addPartenaire(Partenaire partenaire) {
 		
 		if(partenaireRepository.findByIdentite(partenaire.getIdentite()) == null &&
@@ -78,7 +85,12 @@ public class PartenaireServiceImpl implements PartenaireService{
 				// Encoder le Password avant de l'insérer dans la base
 				partenaire.setPassword(bcryptEncoder.encode(partenaire.getPassword()));
 			}	
-			return partenaireRepository.save(partenaire);
+			Partenaire toAddPartenaire =  partenaireRepository.save(partenaire);
+			
+			/*Envoyer un MESSAGE au TOPIC KAFKA pour ajouter ce partenaire*/
+			this.partenaireProducers.addPartenaireProducer(toAddPartenaire);
+			
+			return toAddPartenaire;
 			}
 		return null;
 
