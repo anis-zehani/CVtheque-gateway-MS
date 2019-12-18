@@ -18,7 +18,7 @@ public class AdministrateurProducers {
     public void addAdministrateurProducer(Administrateur administrateur) {
         try{
 			String value = OBJECT_MAPPER.writeValueAsString(administrateur);
-			System.out.print(String.format("#### -> addAdministrateurProducer : Gateway -> %s", value + "\n"));
+			System.out.print(String.format("#### -> addAdministrateurProducer : Gateway-MS -> %s", value + "\n"));
 			this.kafkaTemplate.send("add-administrateur-topic", value);
         }catch (Exception e){
             e.printStackTrace();

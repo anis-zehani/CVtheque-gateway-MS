@@ -20,7 +20,7 @@ public class PartenaireProducers {
     public void addPartenaireProducer(Partenaire partenaire) {
         try{
 			String value = OBJECT_MAPPER.writeValueAsString(partenaire);
-			System.out.print(String.format("#### -> addPartenaireProducer : Gateway -> %s", value + "\n"));
+			System.out.print(String.format("#### -> addPartenaireProducer : Gateway-MS -> %s", value + "\n"));
 			this.kafkaTemplate.send("add-partenaire-topic", value);
         }catch (Exception e){
             e.printStackTrace();
@@ -30,7 +30,7 @@ public class PartenaireProducers {
     public void editPartenaireProducer(Partenaire partenaire) {
         try{
 			String value = OBJECT_MAPPER.writeValueAsString(partenaire);
-			System.out.print(String.format("#### -> editPartenaireProducer : Gateway -> %s", value + "\n"));
+			System.out.print(String.format("#### -> editPartenaireProducer : Gateway-MS -> %s", value + "\n"));
 			this.kafkaTemplate.send("edit-partenaire-topic", value);
         }catch (Exception e){
             e.printStackTrace();
@@ -39,7 +39,7 @@ public class PartenaireProducers {
     
     public void deletePartenaireProducer(UUID idPartenaire) {
         try{
-			System.out.print(String.format("#### -> deletePartenaireProducer -> %s", idPartenaire + "\n"));
+			System.out.print(String.format("#### -> deletePartenaireProducer : Gateway-MS -> %s", idPartenaire + "\n"));
 			this.kafkaTemplate.send("delete-partenaire-topic", idPartenaire.toString());
         }catch (Exception e){
             e.printStackTrace();
