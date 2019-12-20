@@ -84,12 +84,11 @@ public class PartenaireServiceImpl implements PartenaireService{
 			if(partenaire.getPassword() != null) {
 				// Encoder le Password avant de l'insérer dans la base
 				partenaire.setPassword(bcryptEncoder.encode(partenaire.getPassword()));
-			}	
-			Partenaire toAddPartenaire =  partenaireRepository.save(partenaire);
+			}
 			
+			Partenaire toAddPartenaire =  partenaireRepository.save(partenaire);
 			//Consistency avec les autres MS
 			this.partenaireProducers.addPartenaireProducer(toAddPartenaire);
-			
 			return toAddPartenaire;
 			}
 		return null;
@@ -143,12 +142,17 @@ public class PartenaireServiceImpl implements PartenaireService{
 			else {
 				partenaire.setPassword(passwordBDD);
 			}
-			return partenaireRepository.save(partenaire);
+			
+			Partenaire toEditPartenaire =  partenaireRepository.save(partenaire);
+			//Consistency avec les autres MS
+			this.partenaireProducers.addPartenaireProducer(toEditPartenaire);
+			return toEditPartenaire;
 		}
 		return null;
 	}
 	
 	//Modifier l'état d'un Partenaire : Actif/Inactif
+	@Transactional
 	public Partenaire editEtatPartenaire(Partenaire partenaire) {
 		
 		if(partenaireRepository.existsById(partenaire.getId()))
@@ -164,10 +168,10 @@ public class PartenaireServiceImpl implements PartenaireService{
 				partenaireToUpdate.setEtatPartenaire(Etat.True);
 			}
 			
+			Partenaire toEditPartenaire =  partenaireRepository.save(partenaireToUpdate);
 			//Consistency avec les autres MS
-			this.partenaireProducers.editPartenaireProducer(partenaireToUpdate);
-			
-			return partenaireRepository.save(partenaireToUpdate);
+			this.partenaireProducers.addPartenaireProducer(toEditPartenaire);
+			return toEditPartenaire;
 		}
 		return null;
 	}
@@ -248,8 +252,6 @@ public class PartenaireServiceImpl implements PartenaireService{
 				
 				//Consistency avec les autres MS
 				this.partenaireProducers.deletePartenaireProducer(id);
-				
-				return true;
 			}
 			catch(Exception e) 
 			{
@@ -257,6 +259,6 @@ public class PartenaireServiceImpl implements PartenaireService{
 				return false;	
 			}
 		}
-		return null;
+		return true;
 	}
 }
