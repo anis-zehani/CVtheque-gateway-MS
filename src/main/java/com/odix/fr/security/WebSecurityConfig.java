@@ -69,7 +69,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/api/utilisateur/password-send-email-reset/**",
 						"/api/utilisateur/password-reset/**",
 						"/api/utilisateur/redirect-linkedin/**", 
-						"/api/utilisateur/register"
+						"/api/utilisateur/register",
+						"/actuator/**"
 						)
 				.permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -80,6 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
 				.and().sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
 		// Filtres pour sécuriser l'accès au paramètrages des partenaires
 		httpSecurity.antMatcher("/api/partenaire/**")
 				.authorizeRequests()
@@ -91,7 +93,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         		.anyRequest()
         		.hasRole("ADMINISTRATEUR");
 
-		
 		// Add a filter to validate the tokens with every request
 		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}

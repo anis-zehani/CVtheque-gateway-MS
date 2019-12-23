@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: Gateway-MS
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: Config-MS
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ["health", "info", "refresh"]
