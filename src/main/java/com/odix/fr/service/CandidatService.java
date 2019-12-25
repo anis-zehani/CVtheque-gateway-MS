@@ -22,6 +22,8 @@ public interface CandidatService {
 	
 	public Candidat getCandidat(UUID id);
 	
+	public Long getCountCandidats();
+	
 	public Candidat getCandidatByIdLinkedin(String idLinkedin);
 	
 	public Candidat addCandidat(Candidat candidat);

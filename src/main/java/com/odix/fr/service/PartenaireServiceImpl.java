@@ -60,6 +60,10 @@ public class PartenaireServiceImpl implements PartenaireService{
 	public Partenaire getPartenaire(UUID id) {
 		return partenaireRepository.getOne(id);
 	}
+	
+	public Long getCountPartenaires() {
+		return partenaireRepository.count();
+	}
 
 	//Ajouter un partenaire
 	@Transactional

@@ -80,6 +80,12 @@ public class CandidatController {
 		return candidatService.getCandidat(id);
 	}
 	
+	// Feign : Statistiques-MS
+	@GetMapping("/getCountCandidats")
+	public Long getCountCandidats() {
+		return candidatService.getCountCandidats();
+	}
+	
 	//Ajouter un candidat
 	@PostMapping()
 	public Candidat addCandidat(@Valid @RequestBody Candidat candidat) {

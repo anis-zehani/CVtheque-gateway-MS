@@ -12,6 +12,8 @@ public interface ContactService {
 	
 	public Optional<Contact> getContact(UUID id);
 	
+	public Long getCountContacts();
+	
 	public Contact addContact(Contact contact);
 	
 	public Contact editContact(Contact contact);

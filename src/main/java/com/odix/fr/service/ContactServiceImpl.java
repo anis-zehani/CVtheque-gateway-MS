@@ -36,6 +36,10 @@ public class ContactServiceImpl implements ContactService{
 	public Optional<Contact> getContact(UUID id) {
 		return contactRepository.findById(id);
 	}
+	
+	public Long getCountContacts() {
+		return contactRepository.count();
+	}
 
 	//Ajouter un contact
 	public Contact addContact(Contact contact) {

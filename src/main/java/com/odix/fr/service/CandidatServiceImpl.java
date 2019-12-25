@@ -106,6 +106,10 @@ public class CandidatServiceImpl implements CandidatService {
 		return candidatRepository.getOne(id);
 	}
 	
+	public Long getCountCandidats() {
+		return candidatRepository.count();
+	}
+	
 	//Cherche le candidat via son idLinkedin
 	public Candidat getCandidatByIdLinkedin(String idLinkedin) {
 		return candidatRepository.findByIdLinkedin(idLinkedin);

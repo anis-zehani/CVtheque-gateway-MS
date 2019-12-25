@@ -13,6 +13,8 @@ public interface PartenaireService {
 	
 	public Partenaire getPartenaire(UUID id);
 	
+	public Long getCountPartenaires();
+	
 	public Partenaire addPartenaire(Partenaire partenaire);
 	
 	public Partenaire editPartenaire(Partenaire partenaire);

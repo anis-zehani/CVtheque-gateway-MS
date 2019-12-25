@@ -1,11 +1,11 @@
 spring:
   application:
-    name: Gateway-MS
+    name: gateway-MS
   cloud:
     config:
       discovery:
         enabled: true
-        service-id: Config-MS
+        service-id: config-MS
 
 management:
   endpoints:

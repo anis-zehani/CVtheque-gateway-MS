@@ -54,6 +54,12 @@ public class ContactController {
 		return contactService.getContact(id);
 	}
 	
+	// Feign : Statistiques-MS
+	@GetMapping("/getCountContacts")
+	public Long getCountContacts() {
+		return contactService.getCountContacts();
+	}
+	
 	//Ajouter un Contact pour un utilisateur : (idUtilisateur existe dans l'objet Utilisateur envoyé à l'intérieur de l'objet Contact)
 	@PostMapping()
 	public Contact addContact(@Valid @RequestBody Contact contact) {

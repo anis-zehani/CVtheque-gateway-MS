@@ -55,6 +55,12 @@ public class PartenaireController {
 	public List<Partenaire> getAllPartenairesByEntreprise(@PathVariable UUID idEntreprise) {
 	    return partenaireService.getAllPartenairesByEntreprise(idEntreprise);
 	}
+	
+	// Feign : Statistiques-MS
+	@GetMapping("/getCountPartenaires")
+	public Long getCountPartenaires() {
+		return partenaireService.getCountPartenaires();
+	}
 
 	@PostMapping()
 	public Partenaire addPartenaire(@Valid @RequestBody Partenaire partenaire) {
