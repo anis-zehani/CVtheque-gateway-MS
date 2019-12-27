@@ -2,7 +2,6 @@ package com.odix.fr.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.validation.Valid;
@@ -50,7 +49,7 @@ public class ContactController {
 	}
 	
 	@GetMapping("{id}")
-	public Optional<Contact> getContact(@PathVariable UUID id) {
+	public Contact getContact(@PathVariable UUID id) {
 		return contactService.getContact(id);
 	}
 	

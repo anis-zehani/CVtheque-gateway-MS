@@ -1,7 +1,6 @@
 package com.odix.fr.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import com.odix.fr.model.Contact;
@@ -10,7 +9,7 @@ public interface ContactService {
 	
 	public List<Contact> getAllContacts(UUID idUtilisateur);
 	
-	public Optional<Contact> getContact(UUID id);
+	public Contact getContact(UUID id);
 	
 	public Long getCountContacts();
 	

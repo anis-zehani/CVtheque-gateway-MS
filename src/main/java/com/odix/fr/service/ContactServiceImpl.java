@@ -2,7 +2,6 @@ package com.odix.fr.service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -33,8 +32,8 @@ public class ContactServiceImpl implements ContactService{
 		return contactRepository.findAllByUtilisateur(utilisateur);
 	}
 
-	public Optional<Contact> getContact(UUID id) {
-		return contactRepository.findById(id);
+	public Contact getContact(UUID id) {
+		return contactRepository.getOne(id);
 	}
 	
 	public Long getCountContacts() {

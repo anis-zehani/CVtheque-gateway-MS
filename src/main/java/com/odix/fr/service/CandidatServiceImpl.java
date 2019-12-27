@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 // import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class CandidatServiceImpl implements CandidatService {
 	UtilisateurService utilisateurService;
 	
 	@Autowired
-	// private PasswordEncoder bcryptEncoder;
+	private PasswordEncoder bcryptEncoder;
 	
 	CandidatServiceImpl(CandidatRepository candidatRepository, LocalStorageService storageService) 
 	{
@@ -155,8 +156,7 @@ public class CandidatServiceImpl implements CandidatService {
 		candidat.setDateAjout(LocalDateTime.now());
 		
 		//Encoder le Password avant de l'insérer dans la base
-		// candidat.setPassword(bcryptEncoder.encode(candidat.getPassword()));
-		candidat.setPassword(candidat.getPassword());
+		candidat.setPassword(bcryptEncoder.encode(candidat.getPassword()));
 		
 		Candidat savedCandidat = candidatRepository.save(candidat);
 		
@@ -395,8 +395,7 @@ public class CandidatServiceImpl implements CandidatService {
 			// Si le Password Affiché est différent de celui qui est stocké : on change le password
 			if(!passwordFormulaire.equals(passwordBDD))
 			{
-				// candidatToUpdate.setPassword(bcryptEncoder.encode(candidat.getPassword()));
-				candidatToUpdate.setPassword(candidat.getPassword());
+				candidatToUpdate.setPassword(bcryptEncoder.encode(candidat.getPassword()));
 			}
 			// Sinon on réinsére l'ancien password
 			else
