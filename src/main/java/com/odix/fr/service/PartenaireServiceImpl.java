@@ -57,6 +57,7 @@ public class PartenaireServiceImpl implements PartenaireService{
 			
 			return partenaireRepository.findAllByEntreprise(entreprise);
 	}
+	
 	public Partenaire getPartenaire(UUID id) {
 		return partenaireRepository.getOne(id);
 	}
@@ -91,8 +92,10 @@ public class PartenaireServiceImpl implements PartenaireService{
 			}
 			
 			Partenaire toAddPartenaire =  partenaireRepository.save(partenaire);
+			
 			//Consistency avec les autres MS
 			this.partenaireProducers.addPartenaireProducer(toAddPartenaire);
+			
 			return toAddPartenaire;
 			}
 		return null;
@@ -133,8 +136,9 @@ public class PartenaireServiceImpl implements PartenaireService{
 			if(partenaire.getEntreprise().getIdEntreprise() == null) {
 				partenaire.setEntreprise(null);
 			}
-			//Récupérer le password affiché sur le formulaire
-			String passwordFormulaire = partenaire.getPassword();
+			//Récupérer le password affiché sur le formulaire le crypter pour faire la comparaison correctement entre 2 cryptés
+			String passwordFormulaire = bcryptEncoder.encode(partenaire.getPassword());
+			
 			//Récupérer le password actuel dans la BDD
 			String passwordBDD = partenaireRepository.findByUsername(partenaire.getUsername()).getPassword();
 			
@@ -149,7 +153,7 @@ public class PartenaireServiceImpl implements PartenaireService{
 			
 			Partenaire toEditPartenaire =  partenaireRepository.save(partenaire);
 			//Consistency avec les autres MS
-			this.partenaireProducers.addPartenaireProducer(toEditPartenaire);
+			this.partenaireProducers.editPartenaireProducer(toEditPartenaire);
 			return toEditPartenaire;
 		}
 		return null;
@@ -174,14 +178,14 @@ public class PartenaireServiceImpl implements PartenaireService{
 			
 			Partenaire toEditPartenaire =  partenaireRepository.save(partenaireToUpdate);
 			//Consistency avec les autres MS
-			this.partenaireProducers.addPartenaireProducer(toEditPartenaire);
+			this.partenaireProducers.editPartenaireProducer(toEditPartenaire);
 			return toEditPartenaire;
 		}
 		return null;
 	}
 	
 	// AutoFill Edit Partenaire : à partir de son espace Partenaire 
-	@Override
+	@Transactional
 	public Partenaire editPartenaireAutoFill(Partenaire partenaire) {
 		//L'Update url photo se fait en haut dans la fonction addPhotoToPartenaire
 		if(partenaireRepository.existsById(partenaire.getId()) && 
@@ -199,6 +203,8 @@ public class PartenaireServiceImpl implements PartenaireService{
 			partenaireToUpdateAutoFill.setAdresseEntreprisePartenaireAutoFill(partenaire.getAdresseEntreprisePartenaireAutoFill());
 			partenaireToUpdateAutoFill.setDescriptionDetailleePartenaireAutoFill(partenaire.getDescriptionDetailleePartenaireAutoFill());
 			
+			//Consistency avec les autres MS
+			this.partenaireProducers.editPartenaireProducer(partenaireToUpdateAutoFill);
 			return partenaireRepository.save(partenaireToUpdateAutoFill);
 				}
 		return null;
