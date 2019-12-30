@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.odix.fr.model.Entreprise;
+import com.odix.fr.model.POJONotification;
 import com.odix.fr.model.Partenaire;
 import com.odix.fr.model.PartenaireTemporaire;
 import com.odix.fr.model.Utilisateur;
 import com.odix.fr.repository.PartenaireTemporaireRepository;
 import com.odix.fr.util.Consts;
 import com.odix.fr.util.JavaMailSenderService;
+import com.odix.fr.webClients.NotificationClient;
 
 @Service
 public class PartenaireTemporaireServiceImpl implements PartenaireTemporaireService{
@@ -36,13 +38,16 @@ public class PartenaireTemporaireServiceImpl implements PartenaireTemporaireServ
 	@Autowired
 	JavaMailSenderService mailService;
 	
-	@Autowired
-	NotificationService notificationService;
+	NotificationClient notificationClient;
 	
 	@Autowired
 	UtilisateurService utilisateurService;
 	
-	
+	public PartenaireTemporaireServiceImpl(NotificationClient notificationClient) {
+		super();
+		this.notificationClient = notificationClient;
+	}
+
 	// Retourne la liste des Partenaires Temporaires pas encore activés
 	@Override
 	public List<PartenaireTemporaire> getAllPartenairesTemporaires() {
@@ -93,15 +98,30 @@ public class PartenaireTemporaireServiceImpl implements PartenaireTemporaireServ
 				listeDestinatairesNotification.add(admin);
 				
 				// Notification générée par le système (ou bien disons par l'Admin) vers lui même (l'Admin)
-				notificationService.
-				generateSimpleNotification(Consts.objetMsgNotificationDemandeAdhesionPartenaire, 
-										   Consts.corpsMsgNotificationDemandeAdhesionPartenaire, 
-										   listeDestinatairesNotification, 
-										   admin,
-										   null,
-										   partenairePending,
-										   null);
 				
+				/*Ici je fais un Casting Complet afin d'éviter de faire un autre POJO explicitement pour le Partenaire Pending*/
+				Utilisateur partenaireTemporaireCasted = new Utilisateur();
+				partenaireTemporaireCasted.setIdentite(partenairePending.getIdentite());
+				partenaireTemporaireCasted.setTelephone(partenairePending.getTelephone());
+				partenaireTemporaireCasted.setEmail(partenairePending.getEmail());
+				//Attention : ça peut créer un Null Pointer sur getEntreprise
+				//partenaireTemporaireCasted.getEntreprise().setNomEntreprise((partenairePending.getEntreprise()));
+				partenaireTemporaireCasted.setPosteOccupe(partenairePending.getPosteOccupe());
+				partenaireTemporaireCasted.setDateAjout(partenairePending.getDateAjout());
+				partenaireTemporaireCasted.setDescriptionDetaillee(partenairePending.getDescriptionDetaillee());
+
+				
+				// Feign
+				POJONotification pojoNotification = new POJONotification(
+						   Consts.objetMsgNotificationDemandeAdhesionPartenaire, 
+						   Consts.corpsMsgNotificationDemandeAdhesionPartenaire, 
+						   listeDestinatairesNotification, 
+						   admin,
+						   null,
+						   partenaireTemporaireCasted,
+						   null);
+				notificationClient.generateSimpleNotification(pojoNotification);
+
 				// Ajouter le partenaire Pending à la liste des Partenaires Inactifs
 				// Puis quand on l'active à partir de "Gestion Partenaires" il recevra l'email de notification une seule fois
 				// S'il existe dans la table temporaire puis il sera effacé de là bas.
@@ -148,7 +168,8 @@ public class PartenaireTemporaireServiceImpl implements PartenaireTemporaireServ
 		partenaireService.addPartenaire(partenaire);
 		
 		// Désactiver la Notification liée à la demande d'activation de ce Partenaire Temporaire
-		notificationService.deactivateNotificationsByPartenaireTemporaire(lastAttemptedPartenaire);
+		// Feign
+		notificationClient.deactivateNotificationsByPartenaireTemporaire(lastAttemptedPartenaire);
 
 		// Supprimer tous les Partenaires Temporaires ayant l'adresse email venant d'être activée
 		partenaireTemporaireRepository.deleteAllPartenairesTemporairesByEmailAdresse(email);

@@ -22,16 +22,17 @@ import com.odix.fr.model.Ecole;
 import com.odix.fr.model.Entreprise;
 import com.odix.fr.model.Etat;
 import com.odix.fr.model.Note;
+import com.odix.fr.model.POJONotification;
 import com.odix.fr.model.SituationFamiliale;
 import com.odix.fr.model.TypeDiplome;
 import com.odix.fr.model.TypeVisa;
 import com.odix.fr.model.Utilisateur;
 import com.odix.fr.model.Visa;
 import com.odix.fr.service.CandidatService;
-import com.odix.fr.service.NotificationService;
 import com.odix.fr.service.UtilisateurService;
 import com.odix.fr.util.Consts;
 import com.odix.fr.util.Linkedin;
+import com.odix.fr.webClients.NotificationClient;
 
 import net.minidev.json.JSONObject;
 
@@ -46,12 +47,17 @@ public class UtilisateurController {
 	@Autowired
 	CandidatService candidatService;
 	
-	@Autowired
-	NotificationService notificationService;
+	NotificationClient notificationClient;
 	
 	@Autowired
 	UtilisateurService utilisateurService;
 	
+
+	public UtilisateurController(NotificationClient notificationClient) {
+		super();
+		this.notificationClient = notificationClient;
+	}
+
 	@GetMapping(value = "/code-linkedin")
 	public JSONObject codeLinkedin() {
 		
@@ -121,14 +127,16 @@ public class UtilisateurController {
 				// Génération de la Notification si pas d'erreur
 				if (response != null) {
 					// Notification générée par le système (ou bien disons par l'Admin) vers lui même (l'Admin)
-					notificationService.
-					generateSimpleNotification(Consts.objetMsgNotificationCandidatAjoute, 
-											   Consts.corpsMsgNotificationCandidatAjouteLinkedin, 
-											   listeDestinatairesNotification, 
-											   admin,
-											   persistedCandidat,
-											   null,
-											   null);
+					// Feign
+					POJONotification pojoNotification = new POJONotification(
+							   Consts.objetMsgNotificationCandidatAjoute, 
+							   Consts.corpsMsgNotificationCandidatAjouteLinkedin, 
+							   listeDestinatairesNotification, 
+							   admin,
+							   persistedCandidat,
+							   null,
+							   null);
+					notificationClient.generateSimpleNotification(pojoNotification);
 				}
 				
 				return response;

@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import com.odix.fr.model.Candidat;
 import com.odix.fr.model.Curriculum;
 import com.odix.fr.model.Etat;
+import com.odix.fr.model.POJONotification;
 import com.odix.fr.model.Utilisateur;
 import com.odix.fr.repository.CandidatRepository;
 import com.odix.fr.util.Consts;
 import com.odix.fr.util.LocalStorageService;
+import com.odix.fr.webClients.NotificationClient;
 
 @Service
 public class CandidatServiceImpl implements CandidatService {
@@ -24,8 +26,7 @@ public class CandidatServiceImpl implements CandidatService {
 	private final CandidatRepository candidatRepository;
 	private final LocalStorageService storageService;
 	
-	@Autowired
-	NotificationService notificationService;
+	NotificationClient notificationClient;
 	
 	@Autowired
 	UtilisateurService utilisateurService;
@@ -33,11 +34,12 @@ public class CandidatServiceImpl implements CandidatService {
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
 	
-	CandidatServiceImpl(CandidatRepository candidatRepository, LocalStorageService storageService) 
+	CandidatServiceImpl(CandidatRepository candidatRepository, LocalStorageService storageService, NotificationClient notificationClient) 
 	{
 		super();
 		this.candidatRepository = candidatRepository;
 		this.storageService = storageService;
+		this.notificationClient = notificationClient;
 	}
 
 
@@ -169,14 +171,16 @@ public class CandidatServiceImpl implements CandidatService {
 			listeDestinatairesNotification.add(admin);
 			
 			// Notification générée par le système (ou bien disons par l'Admin) vers lui même (l'Admin)
-			notificationService.
-			generateSimpleNotification(Consts.objetMsgNotificationCandidatAjoute, 
-									   Consts.corpsMsgNotificationCandidatAjouteFormulaire,
-									   listeDestinatairesNotification, 
-									   admin,
-									   savedCandidat,
-									   null,
-									   null);
+			// Feign
+			POJONotification pojoNotification = new POJONotification(
+					   Consts.objetMsgNotificationCandidatAjoute, 
+					   Consts.corpsMsgNotificationCandidatAjouteFormulaire,
+					   listeDestinatairesNotification, 
+					   admin,
+					   savedCandidat,
+					   null,
+					   null);
+			notificationClient.generateSimpleNotification(pojoNotification);
 		}
 		return  savedCandidat;
 		}

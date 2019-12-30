@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.Version;
 
 import lombok.Data;
 
@@ -25,9 +24,6 @@ public class PartenaireTemporaire implements Serializable {
 	@GeneratedValue
 	@Column(name = "id", updatable = false, nullable = false, unique=true)
 	private UUID id;
-
-	@Version
-	private int version;
 	
 	@Column
 	private String identite;
@@ -60,16 +56,8 @@ public class PartenaireTemporaire implements Serializable {
 		return id;
 	}
 
-	public int getVersion() {
-		return version;
-	}
-
 	public void setId(UUID id) {
 		this.id = id;
-	}
-
-	public void setVersion(int version) {
-		this.version = version;
 	}
 
 	public String getIdentite() {
