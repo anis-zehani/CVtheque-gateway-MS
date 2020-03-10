@@ -25,7 +25,7 @@ import com.odix.fr.util.LocalStorageService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/partenaire")
+@RequestMapping("/api/gateway/partenaire")
 public class PartenaireController {
 	
 	@Autowired

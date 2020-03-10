@@ -20,7 +20,7 @@ import com.odix.fr.service.PartenaireTemporaireService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/partenaire-temporaire-controller")
+@RequestMapping("/api/gateway/partenaire-temporaire-controller")
 public class PartenaireTemporaireController {
 	
 	@Autowired

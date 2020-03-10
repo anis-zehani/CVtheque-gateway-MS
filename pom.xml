@@ -8,10 +8,11 @@
 		<version>2.0.6.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+	
 	<groupId>com.odix.fr</groupId>
-	<artifactId>gateway</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>gateway</name>
+	<artifactId>gateway-MS</artifactId>
+	<version>1</version>
+	<packaging>jar</packaging>
 	<description>Odix : le sourcing rendu facile</description>
 
 	<properties>
@@ -152,6 +153,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+			        <finalName>gateway-MS</finalName>                   
+			    </configuration>
 			</plugin>
 		</plugins>
 	</build>

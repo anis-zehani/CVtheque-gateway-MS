@@ -8,7 +8,7 @@ import com.odix.fr.model.Candidat;
 
 public interface CandidatService {
 	
-	public List<Candidat> getAllCandidats(String etat);
+public List<Candidat> getAllCandidats(String etat);
 	
 	public List<Candidat> getAllCandidatsByOpportunite(UUID idOpportunite);
 	
@@ -57,5 +57,4 @@ public interface CandidatService {
 	public Candidat addCvOriginalToCandidat(UUID idCandidat, String urlCvOriginal);
 	
 	public Candidat addCvOriginalToCandidatAutoFill(UUID idCandidat, String urlCvOriginal);
-
 }

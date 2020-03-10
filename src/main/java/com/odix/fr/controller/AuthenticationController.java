@@ -22,7 +22,7 @@ import com.odix.fr.security.UserDetailsServiceImpl;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/authentication-controller")
+@RequestMapping("/api/gateway/authentication-controller")
 public class AuthenticationController {
 	
 	protected final Log logger = LogFactory.getLog(getClass());

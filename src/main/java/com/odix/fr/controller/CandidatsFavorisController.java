@@ -18,7 +18,7 @@ import com.odix.fr.service.CandidatsFavorisService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/candidatsfavoris")
+@RequestMapping("/api/gateway/candidatsfavoris")
 public class CandidatsFavorisController {
 
 	@Autowired
