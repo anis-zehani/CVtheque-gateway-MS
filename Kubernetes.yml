@@ -18,10 +18,12 @@ spec:
     spec:
       containers:
       - name: gateway-container
-        image: registry.gitlab.com/gitlabodix/gateway-ms
+        image: registry.gitlab.com/gitlabodix/cvtheque-gateway-ms-prod
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
+      imagePullSecrets:
+      - name: gitlab-secrets
 ---
 apiVersion: v1
 kind: Service
