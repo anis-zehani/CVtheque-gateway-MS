@@ -5,7 +5,7 @@ spring:
     config:
       discovery:
         enabled: true
-        service-id: config-MS
+        service-id: config-service #config-MS
       fail-fast: true
    
 management:
