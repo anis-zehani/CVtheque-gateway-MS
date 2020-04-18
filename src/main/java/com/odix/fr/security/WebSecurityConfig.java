@@ -53,7 +53,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
 		// We don't need CSRF for this example
-		httpSecurity.csrf().disable()
+		httpSecurity
+				.csrf().disable()
 				// Don't authenticate this particular request
 				.authorizeRequests()
 				.antMatchers(
@@ -70,30 +71,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/api/utilisateur/password-reset/**",
 						"/api/utilisateur/redirect-linkedin/**", 
 						"/api/utilisateur/register",
-						"/actuator/**"
-						)
-				.permitAll()
+						"/actuator/**").permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+				.antMatchers("/api/partenaire/**", "/api/partenaire-temporaire-controller/**").hasRole("ADMINISTRATEUR")
 				// all other requests need to be authenticated
 				.anyRequest().authenticated()
 				.and()
 				// make sure we use stateless session; session won't be used to store user's state.
 				.exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
-				.and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-		
-		// Filtres pour sécuriser l'accès au paramètrages des partenaires
-		httpSecurity.antMatcher("/api/partenaire/**")
-				.authorizeRequests()
-        		.anyRequest()
-        		.hasRole("ADMINISTRATEUR")
-        		.and()
-        		.antMatcher("/api/partenaire-temporaire-controller/**")
-    			.authorizeRequests()
-        		.anyRequest()
-        		.hasRole("ADMINISTRATEUR");
+				.and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				.and()
+				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
-		// Add a filter to validate the tokens with every request
-		httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+		/**Filtre 2 remplacé en haut par .antMatchers("/api/partenaire/**", "/api/partenaire-temporaire-controller/**").hasRole("ADMINISTRATEUR") ***/
+		// Filtres pour sécuriser l'accès au paramètrages des partenaires
+		/*httpSecurity
+		.antMatcher("/api/partenaire/**")
+		.authorizeRequests()
+		.anyRequest()
+		.hasRole("ADMINISTRATEUR")
+		.and()
+		.antMatcher("/api/partenaire-temporaire-controller/**")
+		.authorizeRequests()
+		.anyRequest()
+		.hasRole("ADMINISTRATEUR");
+		*/
 	}
 }

@@ -3,23 +3,24 @@ kind: Deployment
 metadata:
   name: gateway-deployment
   labels:
-    app: gateway
+    app: gateway-MS
 spec:
-  replicas: 1 #  tells deployment to run 1 pod matching the template
+  replicas: 1
   selector:
     matchLabels:
-      app: gateway
+      app: gateway-MS
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: gateway
+        app: gateway-MS
     spec:
       containers:
       - name: gateway-container
         image: registry.gitlab.com/gitlabodix/cvtheque-gateway-ms-prod
-        imagePullPolicy: Always
+        args: ["--spring.profiles.active=prod"]
+        imagePullPolicy: Never
         ports:
         - containerPort: 8080
       imagePullSecrets:
@@ -31,7 +32,7 @@ metadata:
   name: gateway-service
 spec:
   selector:
-    app: gateway
+    app: gateway-MS
   type: LoadBalancer
   ports:
     - port: 8080

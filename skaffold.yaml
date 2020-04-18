@@ -1,0 +1,11 @@
+apiVersion: skaffold/v2beta2
+kind: Config
+metadata:
+  name: gateway-ms
+build:
+  artifacts:
+  - image: registry.gitlab.com/gitlabodix/cvtheque-gateway-ms-prod
+deploy:
+  kubectl:
+    manifests:
+    - Kubernetes.yml
