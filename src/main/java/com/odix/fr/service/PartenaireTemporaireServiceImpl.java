@@ -38,6 +38,7 @@ public class PartenaireTemporaireServiceImpl implements PartenaireTemporaireServ
 	@Autowired
 	JavaMailSenderService mailService;
 	
+	@Autowired
 	NotificationClient notificationClient;
 	
 	@Autowired

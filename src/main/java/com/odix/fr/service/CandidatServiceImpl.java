@@ -26,6 +26,7 @@ public class CandidatServiceImpl implements CandidatService {
 	private final CandidatRepository candidatRepository;
 	private final LocalStorageService storageService;
 	
+	@Autowired
 	NotificationClient notificationClient;
 	
 	@Autowired
