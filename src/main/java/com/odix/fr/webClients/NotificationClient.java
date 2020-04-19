@@ -10,7 +10,7 @@ import com.odix.fr.model.PartenaireTemporaire;
 
 import feign.Headers;
 
-@FeignClient(value = "${notifications-ms.serviceName}", fallback = NotificationClient.NotificationClientFallback.class)
+@FeignClient(name = "notifications-ms", fallback = NotificationClient.NotificationClientFallback.class)
 public interface NotificationClient {
 
 	@PostMapping("/api/notification/generateSimpleNotification")
