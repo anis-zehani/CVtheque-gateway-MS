@@ -1,0 +1,56 @@
+#################### Secrets ####################
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gitlab-secrets-gateway-ms
+type: Opaque
+data:
+  docker-server: cmVnaXN0cnkuZ2l0bGFiLmNvbS9naXRsYWJvZGl4L2N2dGhlcXVlLWdhdGV3YXktbXMtcHJvZAo=
+  docker-username: R2l0TGFiT2RpeAo=
+  docker-password: Z2RmZmcrNWRmZ2Y4OG5wbzI0eHdtNDFhCg==
+  docker-email: YXphaGVuaUBzbWFydGdyYXBoZS5jb20K
+#################### Deployment ####################
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: gateway-deployment
+  labels:
+    app: gateway
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gateway
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+      - name: gateway-container
+        image: registry.gitlab.com/gitlabodix/cvtheque-gateway-ms-prod
+        args: ["--spring.profiles.active=prod"]
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: gitlab-secrets-gateway-ms
+#################### Service ####################
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gateway-ms
+spec:
+  selector:
+    app: gateway
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 30080
+

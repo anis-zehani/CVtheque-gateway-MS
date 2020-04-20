@@ -43,11 +43,6 @@ public class PartenaireTemporaireServiceImpl implements PartenaireTemporaireServ
 	
 	@Autowired
 	UtilisateurService utilisateurService;
-	
-	public PartenaireTemporaireServiceImpl(NotificationClient notificationClient) {
-		super();
-		this.notificationClient = notificationClient;
-	}
 
 	// Retourne la liste des Partenaires Temporaires pas encore activés
 	@Override
