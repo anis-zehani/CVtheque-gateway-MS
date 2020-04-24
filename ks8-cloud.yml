@@ -1,15 +1,3 @@
-#################### Secrets ####################
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: gitlab-secrets-gateway-ms
-type: Opaque
-data:
-  docker-server: cmVnaXN0cnkuZ2l0bGFiLmNvbS9naXRsYWJvZGl4L2N2dGhlcXVlLWdhdGV3YXktbXMtcHJvZAo=
-  docker-username: R2l0TGFiT2RpeAo=
-  docker-password: Z2RmZmcrNWRmZ2Y4OG5wbzI0eHdtNDFhCg==
-  docker-email: YXphaGVuaUBzbWFydGdyYXBoZS5jb20K
 #################### Deployment ####################
 ---
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
