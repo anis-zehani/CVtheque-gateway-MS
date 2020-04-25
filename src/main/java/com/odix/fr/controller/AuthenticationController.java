@@ -20,7 +20,7 @@ import com.odix.fr.security.JwtTokenUtil;
 import com.odix.fr.security.UserDetailsServiceImpl;
 
 
-@CrossOrigin(origins = "http://35.208.199.180:30000")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/gateway/authentication-controller")
 public class AuthenticationController {
