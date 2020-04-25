@@ -15,6 +15,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.google.common.collect.ImmutableList;
 
 @Configuration
 @EnableWebSecurity
@@ -97,4 +102,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.hasRole("ADMINISTRATEUR");
 		*/
 	}
+	
+		//CrossOrigin 
+	    @Bean
+	    public CorsConfigurationSource corsConfigurationSource() {
+	        final CorsConfiguration configuration = new CorsConfiguration();
+	        //configuration.setAllowedOrigins(ImmutableList.of("http://localhost:8080","http://localhost:8084"));
+	        configuration.setAllowedOrigins(ImmutableList.of("*"));
+	        configuration.setAllowedMethods(ImmutableList.of("GET", "POST", "PUT", "DELETE"));
+	        configuration.setAllowCredentials(true);
+	        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
+	        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	        source.registerCorsConfiguration("/**", configuration);
+	        return source;
+	    }
 }
