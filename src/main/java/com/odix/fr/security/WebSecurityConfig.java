@@ -62,22 +62,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Don't authenticate this particular request
 				.authorizeRequests()
 				.antMatchers(
-						"/api/authentication-controller/authenticate", 
-						"/api/candidat-temporaire-controller",
-						"/api/candidat-temporaire-controller/mail-activation-candidat-temporaire/**", 
-						"/api/candidat-temporaire-controller/activation-compte-candidat-temporaire/**",
-						"/api/authentication-controller/authenticateByResetPassword", 
-						"/api/authentication-controller/authenticateNewCreatedUser", 
-						"/api/partenaire-temporaire-controller",
-						"/api/utilisateur/code-linkedin", 
-						"/api/utilisateur/password-forgotten/**", 
-						"/api/utilisateur/password-send-email-reset/**",
-						"/api/utilisateur/password-reset/**",
-						"/api/utilisateur/redirect-linkedin/**", 
-						"/api/utilisateur/register",
+						"/api/gateway/authentication-controller/authenticate", 
+						"/api/gateway/candidat-temporaire-controller",
+						"/api/gateway/candidat-temporaire-controller/mail-activation-candidat-temporaire/**", 
+						"/api/gateway/candidat-temporaire-controller/activation-compte-candidat-temporaire/**",
+						"/api/gateway/authentication-controller/authenticateByResetPassword", 
+						"/api/gateway/authentication-controller/authenticateNewCreatedUser", 
+						"/api/gateway/partenaire-temporaire-controller",
+						"/api/gateway/utilisateur/code-linkedin", 
+						"/api/gateway/utilisateur/password-forgotten/**", 
+						"/api/gateway/utilisateur/password-send-email-reset/**",
+						"/api/gateway/utilisateur/password-reset/**",
+						"/api/gateway/utilisateur/redirect-linkedin/**", 
+						"/api/gateway/utilisateur/register",
 						"/actuator/**").permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-				.antMatchers("/api/partenaire/**", "/api/partenaire-temporaire-controller/**").hasRole("ADMINISTRATEUR")
+				.antMatchers("/api/gateway/partenaire/**", "/api/gateway/partenaire-temporaire-controller/**").hasRole("ADMINISTRATEUR")
 				// all other requests need to be authenticated
 				.anyRequest().authenticated()
 				.and()
