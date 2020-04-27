@@ -87,24 +87,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-
-		/**Filtre 2 remplacé en haut par .antMatchers("/api/partenaire/**", "/api/partenaire-temporaire-controller/**").hasRole("ADMINISTRATEUR") ***/
-		// Filtres pour sécuriser l'accès au paramètrages des partenaires
-		/*httpSecurity
-		.antMatcher("/api/partenaire/**")
-		.authorizeRequests()
-		.anyRequest()
-		.hasRole("ADMINISTRATEUR")
-		.and()
-		.antMatcher("/api/partenaire-temporaire-controller/**")
-		.authorizeRequests()
-		.anyRequest()
-		.hasRole("ADMINISTRATEUR");
-		*/
 	}
 	
 		//CrossOrigin 
-	    @Bean
+	    /*@Bean
 	    public CorsConfigurationSource corsConfigurationSource() {
 	        final CorsConfiguration configuration = new CorsConfiguration();
 	        //configuration.setAllowedOrigins(ImmutableList.of("http://localhost:8080","http://localhost:8084"));
@@ -115,5 +101,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 	        source.registerCorsConfiguration("/**", configuration);
 	        return source;
-	    }
+	    }*/
 }
