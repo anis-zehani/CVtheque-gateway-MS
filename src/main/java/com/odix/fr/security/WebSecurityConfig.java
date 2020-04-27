@@ -75,6 +75,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 						"/api/gateway/utilisateur/password-reset/**",
 						"/api/gateway/utilisateur/redirect-linkedin/**", 
 						"/api/gateway/utilisateur/register",
+						
+						//statistiques-MS Feign Clients : pas besoin de s'identifier
+						"/api/gateway/candidat/getCountCandidats",
+						"/api/gateway/contact/getCountContacts",
+						"/api/gateway/partenaire/getCountPartenaires",
+						
 						"/actuator/**").permitAll()
 				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 				.antMatchers("/api/gateway/partenaire/**", "/api/gateway/partenaire-temporaire-controller/**").hasRole("ADMINISTRATEUR")
@@ -93,7 +99,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    @Bean
 	    public CorsConfigurationSource corsConfigurationSource() {
 	        final CorsConfiguration configuration = new CorsConfiguration();
-	        configuration.setAllowedOrigins(ImmutableList.of("http://ks8.odix.fr:30000"));
+	        configuration.setAllowedOrigins(ImmutableList.of("http://localhost:4200", "http://ks8.odix.fr:30000"));
 	        //configuration.setAllowedOrigins(ImmutableList.of("*"));
 	        configuration.setAllowedMethods(ImmutableList.of("GET", "POST", "PUT", "DELETE"));
 	        configuration.setAllowCredentials(true);
